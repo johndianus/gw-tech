@@ -89,4 +89,43 @@ describe("RestaurantDetails component", () => {
     expect(screen.getByText("Review Score: 4.5")).toBeInTheDocument();
     expect(screen.getByText("Contact: contact@restaurant.com")).toBeInTheDocument();
   });
+
+  test("dispatches selectRestaurant(null) action when Back button is clicked", () => {
+    const mockData = {
+      id: 1,
+      name: "123 Main St",
+      details: {
+        address: "123 Main St",
+        contactEmail: "contact@restaurant.com",
+        reviewScore: 4.5,
+        openingHours: {
+          weekday: "12:00 PM - 10:00 PM",
+          weekend: "11:00 AM - 11:00 PM",
+        },
+      },
+    };
+
+    (useFetchedData as jest.Mock).mockReturnValue({
+      loading: false,
+      error: null,
+      data: mockData,
+    });
+
+    const store = mockStore({
+      restaurant: { id: 1, details: mockData.details },
+    });
+
+    render(
+      <Provider store={store}>
+        <RestaurantDetails />
+      </Provider>
+    );
+
+    const backButton = screen.getByText("Back");
+    fireEvent.click(backButton);
+
+    const actions = store.getActions();
+    expect(actions).toContainEqual(selectRestaurant(null));
+  });
+
 });

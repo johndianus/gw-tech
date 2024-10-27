@@ -13,7 +13,7 @@ function App() {
   return (
     <Container>
       <Row>
-        <Col md={4}>
+        <Col md={4} className={selectedRestaurant ? `d-none d-md-block`:""}>
           <RestaurantList/>
         </Col>
         <Col md={8}>

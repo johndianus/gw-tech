@@ -1,17 +1,18 @@
 import React from "react";
-import { Card, Container } from "react-bootstrap";
+import { Card, Container, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux"
 import { useSelector } from "react-redux";
-import { RootState } from '../redux/reducer';
-import { selectRestaurant } from '../redux/action';
-import { Restaurant } from "../types";
 import { useFetchedData } from '../hooks/fetchdata';
 import { Loading } from "./Loading";
 import { Error } from "./Error";
+import { RootState } from '../redux/reducer';
+import { selectRestaurant } from '../redux/action';
+import { Restaurant } from "../types";
 
 const RestaurantDetails: React.FC = () => {
   const selectedRestaurant = useSelector((state: RootState) => state.restaurant);
+  const dispatch: Dispatch<any> = useDispatch()
   const { data, error, loading } = useFetchedData<Restaurant>(`/restaurants/${selectedRestaurant?.id}`);
 
   if (!data && !loading) {
@@ -24,6 +25,13 @@ const RestaurantDetails: React.FC = () => {
       {error && <Error error={error} />}
       {data && (
         <>
+          <Button 
+            variant="secondary" 
+            className="mb-4 d-block d-md-none"
+            onClick={() => dispatch(selectRestaurant(null))}
+          >
+            Back
+          </Button>
           <Card>
             <Card.Body>
               <Card.Title>Restaurant Details</Card.Title>
