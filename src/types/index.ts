@@ -2,6 +2,7 @@ export type Restaurant = {
   id: number;
   name: string;
   shortDescription: string;
+  rating: number;  
   details: {
     address: string;
     contactEmail: string;
@@ -11,7 +12,7 @@ export type Restaurant = {
       weekend: string;
     };
   };
-  };
+};
   
   export interface SelectRestaurantAction {
     type: string;
