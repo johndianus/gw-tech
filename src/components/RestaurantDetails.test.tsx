@@ -10,7 +10,7 @@ import configureStore from "redux-mock-store";
 
 const mockStore = configureStore([]);
 
-jest.mock("../hooks/fetchData", () => ({
+jest.mock("../hooks/fetchdata", () => ({
   useFetchedData: jest.fn(),
 }));
 
