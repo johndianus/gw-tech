@@ -1,8 +1,6 @@
-interface ErrorProps {
-    error: { message: string };
-  }
-  
+import { ErrorProps } from "../types";
+
 export const Error = ({ error }: ErrorProps) => {
-    if (!error || !error.message) return null;
-      return <div>Error: {error.message}</div>;
-  };
+  if (!error || !error.message) return null;
+    return <div>Error: {error.message}</div>;
+};

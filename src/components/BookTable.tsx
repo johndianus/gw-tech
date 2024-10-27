@@ -37,7 +37,21 @@ const BookTable: React.FC = () => {
       .min(10, "Phone number must be at least 10 digits"),
     datetime: Yup.date()
       .required("Date and time are required")
-      .min(getMinDateTime(), "Date and time must be at least one hour from now"),
+      .min(getMinDateTime(), "Date and time must be at least one hour from now")
+      .test("is-within-opening-hours", "Selected time must be within opening hours", (value) => {
+        if (!value) return false;
+  
+        const date = new Date(value);
+        const day = date.getDay();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+  
+        if (day === 0 || day === 6) {
+          return (hours > 11 || (hours === 11 && minutes >= 0)) && (hours < 23 || (hours === 23 && minutes === 0));
+        } else {
+          return (hours > 12 || (hours === 12 && minutes >= 0)) && (hours < 22 || (hours === 22 && minutes === 0));
+        }
+      }),      
     guests: Yup.number()
       .required("Number of guests is required")
       .min(1, "At least one guest is required"),

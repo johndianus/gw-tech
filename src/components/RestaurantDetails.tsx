@@ -38,6 +38,8 @@ const RestaurantDetails: React.FC = () => {
               <Card.Text>Address: {data?.details?.address}</Card.Text>
               <Card.Text>Review Score: {data?.details?.reviewScore}</Card.Text>
               <Card.Text>Contact: {data?.details.contactEmail}</Card.Text>
+              <Card.Text>Weekday Opening: {data?.details?.openingHours?.weekday}</Card.Text>
+              <Card.Text>Weekend Opening: {data?.details?.openingHours?.weekend}</Card.Text>
             </Card.Body>
           </Card>
         </>

@@ -14,9 +14,13 @@ export type Restaurant = {
   };
 };
   
-  export interface SelectRestaurantAction {
-    type: string;
-    payload: Restaurant | null;
-  }
+export interface SelectRestaurantAction {
+  type: string;
+  payload: Restaurant | null;
+}
   
-  export type RestaurantActionTypes = SelectRestaurantAction;
+export type RestaurantActionTypes = SelectRestaurantAction;
+
+export interface ErrorProps {
+  error: { message: string };
+}

@@ -43,6 +43,22 @@ describe('BookTable Component', () => {
     });
   });
 
+  test('displays error when input datetime is out of opening hours', async () => {
+    renderComponent();
+    const dateTimeInput = screen.getByLabelText(/date and time/i);
+    
+    const invalidDateTime = '2024-12-01T08:00';
+    fireEvent.change(dateTimeInput, { target: { value: invalidDateTime } });
+
+    fireEvent.click(screen.getByRole('button', { name: /book/i }));
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(/selected time must be within opening hours/i)
+      ).toBeInTheDocument()
+    );
+  });
+  
   test('submits form successfully when all fields are valid', async () => {
     renderComponent();
 
