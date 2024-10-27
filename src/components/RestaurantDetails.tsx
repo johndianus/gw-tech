@@ -1,44 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
-import { getRestaurantDetails } from "../services/api";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux"
+import { useSelector } from "react-redux";
+import { RootState } from '../redux/reducer';
+import { selectRestaurant } from '../redux/action';
+import { Restaurant } from "../types";
+import { useFetchedData } from '../hooks/fetchdata';
 
-type RestaurantDetailsProps = {
-  restaurantId: number;
-};
-
-type RestaurantDetailsData = {
-  address: string;
-  openingHours: {
-    weekday: string;
-    weekend: string;
-  };
-  reviewScore: number;
-  contactEmail: string;
-};
-
-const RestaurantDetails: React.FC<RestaurantDetailsProps> = ({
-  restaurantId,
-}) => {
-  if (!restaurantId) return null;
-
-  const details = {
-    address: "123 Fine St, London",
-    openingHours: {
-      weekday: "12:00 PM - 10:00 PM",
-      weekend: "11:00 AM - 11:00 PM",
-    },
-    reviewScore: 4.7,
-    contactEmail: "info@velvetandvine.co.uk",
-  };
-
+const RestaurantDetails: React.FC = () => {
+  const selectedRestaurant = useSelector((state: RootState) => state.restaurant);
+  const { data, error, loading } = useFetchedData<Restaurant>(`/restaurants/${selectedRestaurant?.id}`);
+console.log(data);
+  if (!data && !loading) {
+    return <div>No restaurant ID provided.</div>;
+  }
+  
   return (
     <Container>
       <Card>
         <Card.Body>
           <Card.Title>Restaurant Details</Card.Title>
-          <Card.Text>Address: {details.address}</Card.Text>
-          <Card.Text>Review Score: {details.reviewScore}</Card.Text>
-          <Card.Text>Contact: {details.contactEmail}</Card.Text>
+          <Card.Text>Address: {data?.details?.address}</Card.Text>
+          <Card.Text>Review Score: {data?.details?.reviewScore}</Card.Text>
+          <Card.Text>Contact: {data?.details.contactEmail}</Card.Text>
         </Card.Body>
       </Card>
     </Container>

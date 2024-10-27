@@ -1,27 +1,26 @@
-import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Col, Container, Row } from "react-bootstrap";
 import RestaurantList from "./components/RestaurantList";
 import RestaurantDetails from "./components/RestaurantDetails";
 import BookTable from "./components/BookTable";
+import { useSelector } from "react-redux";
+import { RootState } from './redux/reducer';
 
 function App() {
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState<
-    number | null
-  >(null);
+  const selectedRestaurant = useSelector((state: RootState) => state.restaurant);
 
   return (
     <Container>
       <Row>
         <Col md={4}>
-          <RestaurantList onRestaurantSelect={setSelectedRestaurantId} />
+          <RestaurantList/>
         </Col>
         <Col md={8}>
-          {selectedRestaurantId && (
+          {selectedRestaurant && (
             <>
-              <RestaurantDetails restaurantId={selectedRestaurantId} />
-              <BookTable />
+              <RestaurantDetails/>
+              {/*<BookTable />*/}
             </>
           )}
         </Col>

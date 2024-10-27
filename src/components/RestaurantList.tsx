@@ -1,24 +1,22 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux"
+
 import { ListGroup, Container } from "react-bootstrap";
 import { useFetchedData } from '../hooks/fetchdata';
 import { Loading } from "./Loading";
 import { Error } from "./Error";
+import { selectRestaurant } from '../redux/action';
+import { Restaurant } from "../types";
 
-type Restaurant = {
-  id: number;
-  name: string;
-  shortDescription: string;
-};
-
-type RestaurantListProps = {
-  onRestaurantSelect: (id: number) => void;
-};
-
-const RestaurantList: React.FC<RestaurantListProps> = ({
-  onRestaurantSelect,
-}) => {
+const RestaurantList: React.FC = () => {
   const { data, error, loading } = useFetchedData<Restaurant[]>('/restaurants');
-  console.log(data);
+  const dispatch: Dispatch<any> = useDispatch()
+  
+  const handleSelectRestaurant = (restaurant: Restaurant) => {
+    dispatch(selectRestaurant(restaurant));
+  };
+
   return (
     <Container>
       <h2>Restaurants</h2>
@@ -29,7 +27,7 @@ const RestaurantList: React.FC<RestaurantListProps> = ({
           <ListGroup.Item
             key={restaurant.id}
             action
-            onClick={() => onRestaurantSelect(restaurant.id)}
+            onClick={() => handleSelectRestaurant(restaurant)}
           >
             <h5>{restaurant.name}</h5>
             <p>{restaurant.shortDescription}</p>
